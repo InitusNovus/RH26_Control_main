@@ -1,93 +1,126 @@
 /*
- * WheelSpeed.h
+ * kelly8080ips_can.h
  *
- *  Created on: 2019. 10. 11.
- *      Author: Dua
+ *  Created on: 2018. 8. 8.
+ *      Author: bigbi_000
  */
 
-#ifndef SRC_APPSW_TRICORE_SDP_WHEELSPEED_WHEELSPEED_H_
-#define SRC_APPSW_TRICORE_SDP_WHEELSPEED_WHEELSPEED_H_
+#ifndef KELLY8080IPS_CAN_H_
+#define KELLY8080IPS_CAN_H_
 
 /******************************************************************************/
 /*----------------------------------Includes----------------------------------*/
 /******************************************************************************/
+#include <Ifx_Types.h>
+#include "Configuration.h"
+#include "ConfigurationIsr.h"
 
+#include "Multican.h"
+#include "CanCommunication.h"
 
 /******************************************************************************/
 /*-----------------------------------Macros-----------------------------------*/
 /******************************************************************************/
 
-
 /******************************************************************************/
 /*------------------------------Type Definitions------------------------------*/
 /******************************************************************************/
 
-
 /******************************************************************************/
 /*--------------------------------Enumerations--------------------------------*/
 /******************************************************************************/
-
 
 /******************************************************************************/
 /*-----------------------------Data Structures--------------------------------*/
 /******************************************************************************/
 typedef struct
 {
-	float32 gearRatio;
-	float32 wheelDiameter;
-	float32 sensorResolution;
-}SDP_WheelSpeed_sensorConfig_config;
-
-typedef struct
-{
-	float32 gearRatio;
-	float32 wheelDiameter;
-	float32 resolution;
-
-	float32 wheelRadius;
-	float32 freqToSpeed;
-	float32 speedToVelocity;	//in m/s
-}SDP_WheelSpeed_sensorConfig_t;
-
-typedef struct
-{
-	SDP_WheelSpeed_sensorConfig_t config;
-	float32 sensorFrequencyRaw;
-	float32 sensorAngularSpeed;
-	float32 wheelLinearVelocity;
-
-}SDP_WheelSpeed_sensor_t;
-
-typedef struct
-{
-	SDP_WheelSpeed_sensor_t wssFL;
-	SDP_WheelSpeed_sensor_t wssFR;
-	SDP_WheelSpeed_sensor_t wssRL;
-	SDP_WheelSpeed_sensor_t wssRR;
-
-	struct
+	uint16 rpm;
+	uint16 motCurrent;
+	uint16 batVoltage;	//10x
+	union
 	{
-		float32 frontAxle;
-		float32 rearAxle;
-		float32 chassis;
-	}velocity;
-}SDP_WheelSpeed_t;
+		uint16 U;
+		struct
+		{
+			uint16 err0		:1;
+			uint16 err1		:1;
+			uint16 err2		:1;
+			uint16 err3		:1;
+			uint16 err4		:1;
+			uint16 err5		:1;
+			uint16 err6		:1;
+			uint16 err7		:1;
+			uint16 err8		:1;
+			uint16 err9		:1;
+			uint16 err10	:1;
+			uint16 err11	:1;
+			uint16 err12	:1;
+			uint16 err13	:1;
+			uint16 err14	:1;
+			uint16 err15	:1;
+		}B;
+	}error;
 
+}kelly8080ips_msg1_t;
+
+typedef struct
+{
+	uint8 tps;		//Raw data
+	sint8 conTemp;
+	sint8 motTemp;
+	union
+	{
+		uint8 U;
+		struct
+		{
+			uint8 feedback 	:2;
+			uint8 command	:2;
+		}B;
+	}conStat;
+	union
+	{
+		uint8 U;
+		struct
+		{
+			uint8 hallA		:1;
+			uint8 hallB		:1;
+			uint8 hallC		:1;
+			uint8 Brake12v	:1;
+			uint8 backward	:1;
+			uint8 forward	:1;
+			uint8 foot		:1;
+			uint8 boost		:1;
+		}B;
+	}swStat;
+}kelly8080ips_msg2_t;
+
+typedef struct
+{
+	/* Can message data */
+	kelly8080ips_msg1_t msg1;
+	kelly8080ips_msg2_t msg2;
+	
+	/* Can message object */
+    CanCommunication_Message canMsgObj00;
+    CanCommunication_Message canMsgObj01;
+
+	uint32 canErrorCount;
+	boolean canError;
+}kelly8080ips_t;
 /******************************************************************************/
 /*------------------------------Global variables------------------------------*/
 /******************************************************************************/
-IFX_EXTERN SDP_WheelSpeed_t SDP_WheelSpeed;
-
+IFX_EXTERN kelly8080ips_t kelly8080ips1;
+IFX_EXTERN kelly8080ips_t kelly8080ips2;
 /******************************************************************************/
 /*-------------------------Function Prototypes--------------------------------*/
 /******************************************************************************/
-IFX_EXTERN void SDP_WheelSpeed_init(void);
-IFX_EXTERN void SDP_WheelSpeed_run_1ms(void);
-
+IFX_EXTERN void kelly8080ips_can_init(void);
+IFX_EXTERN void kelly8080ips_can_run_1ms_c2(void);
 /******************************************************************************/
 /*---------------------Inline Function Implementations------------------------*/
 /******************************************************************************/
 
 
-
-#endif
+#endif /* KELLY8080IPS_CAN_H_ */

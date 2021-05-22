@@ -35,47 +35,7 @@
 /******************************************************************************/
 /*-----------------------------Data Structures--------------------------------*/
 /******************************************************************************/
-typedef struct
-{
-	float32 gearRatio;
-	float32 wheelDiameter;
-	float32 sensorResolution;
-}SDP_WheelSpeed_sensorConfig_config;
 
-typedef struct
-{
-	float32 gearRatio;
-	float32 wheelDiameter;
-	float32 resolution;
-
-	float32 wheelRadius;
-	float32 freqToSpeed;
-	float32 speedToVelocity;	//in m/s
-}SDP_WheelSpeed_sensorConfig_t;
-
-typedef struct
-{
-	SDP_WheelSpeed_sensorConfig_t config;
-	float32 sensorFrequencyRaw;
-	float32 sensorAngularSpeed;
-	float32 wheelLinearVelocity;
-
-}SDP_WheelSpeed_sensor_t;
-
-typedef struct
-{
-	SDP_WheelSpeed_sensor_t wssFL;
-	SDP_WheelSpeed_sensor_t wssFR;
-	SDP_WheelSpeed_sensor_t wssRL;
-	SDP_WheelSpeed_sensor_t wssRR;
-
-	struct
-	{
-		float32 frontAxle;
-		float32 rearAxle;
-		float32 chassis;
-	}velocity;
-}SDP_WheelSpeed_t;
 
 /******************************************************************************/
 /*------------------------------Global variables------------------------------*/

@@ -4,6 +4,8 @@
  * Author: Dua
  */
 
+#ifndef GPIO_DEBOUNCE
+#define GPIO_DEBOUNCE
 /* Includes */
 #include "IfxPort.h"
 #include "Ifx_Types.h"
@@ -73,3 +75,5 @@ typedef struct
 IFX_EXTERN void Gpio_Debounce_initInput(Gpio_Debounce_input* input, Gpio_Debounce_inputConfig* config);
 IFX_EXTERN boolean Gpio_Debounce_pollInput(Gpio_Debounce_input* input);
 IFX_EXTERN void Gpio_Debounce_initInputConfig(Gpio_Debounce_inputConfig* config);
+
+#endif

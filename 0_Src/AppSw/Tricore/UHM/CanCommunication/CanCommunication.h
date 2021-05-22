@@ -43,6 +43,8 @@ typedef struct
 
 /* Global Variables */
 IFX_EXTERN IfxMultican_Can_Node	CanCommunication_canNode0;
+IFX_EXTERN IfxMultican_Can_Node	CanCommunication_canNode1;
+IFX_EXTERN IfxMultican_Can_Node	CanCommunication_canNode2;
 // IFX_EXTERN CanCommunication_Message CanCommunication_message0;
 
 

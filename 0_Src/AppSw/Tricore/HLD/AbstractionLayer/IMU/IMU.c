@@ -59,7 +59,7 @@ void HLD_Imu_run_1ms_c1(void)
 {
 	HLD_Imu_spiRoutine();
 	HLD_Imu_procData();
-	while(IfxCpu_acquireMutex(&HLD_Imu.shared.mutex));
+	while(IfxCpu_acquireMutex(&HLD_Imu.shared.mutex));		//Wait for mutex
 	{
 		HLD_Imu.shared.data = HLD_Imu.data;
 		IfxCpu_releaseMutex(&HLD_Imu.shared.mutex);

@@ -18,24 +18,24 @@
 /*-----------------------------------Macros-----------------------------------*/
 /******************************************************************************/
 /*FIXME Temporary values*/
-#define A0END		27.6
-#define A0STT		20.7
+#define A0END		44.6f
+#define A0STT		36.9f
 #define A0DDZ		5
 
-#define A1END		23.3
-#define A1STT		15.8
+#define A1END		91.5f	//FIXME: Temporary value
+#define A1STT		83.3f	//FIXME: Temparary value
 #define A1DDZ		5
 
-#define A2END		25.3
-#define A2STT		18.3
+#define A2END		91.5f
+#define A2STT		83.3f
 #define A2DDZ		5
 
-#define B0STT		78.2
-#define B0END		83.7
+#define B0STT		78.2f	//FIXME
+#define B0END		83.7f	//FIXME
 #define B0DDZ		5
 
-#define B1STT		42.6
-#define B1END		47.6
+#define B1STT		42.6f	//FIXME
+#define B1END		47.6f	//FIXME
 #define B1DDZ		5
 
 #define PBERRORLIMIT	10
@@ -98,21 +98,21 @@ void SDP_PedalBox_init(void)
 	config.start = A0STT;
 	config.end = A0END;
 	config.percentDeadzone = A0DDZ;
-	config.reversed = TRUE;
+	config.reversed = FALSE;
 	SDP_PedalBox_initSensor(&SDP_PedalBox_pps.apps0, &config);
 
 	SDP_PedalBox_initSensorConfig(&config);
 	config.start = A1STT;
 	config.end = A1END;
 	config.percentDeadzone = A1DDZ;
-	config.reversed = TRUE;
+	config.reversed = FALSE;
 	SDP_PedalBox_initSensor(&SDP_PedalBox_pps.apps1, &config);
 
 	SDP_PedalBox_initSensorConfig(&config);
 	config.start = A2STT;
 	config.end = A2END;
 	config.percentDeadzone = A2DDZ;
-	config.reversed = TRUE;
+	config.reversed = FALSE;
 	SDP_PedalBox_initSensor(&SDP_PedalBox_pps.apps2, &config);
 
 	SDP_PedalBox_initSensorConfig(&config);

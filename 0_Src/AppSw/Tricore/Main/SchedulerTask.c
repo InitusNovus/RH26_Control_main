@@ -17,6 +17,12 @@
 #include "CanCommunication.h"
 #include "AccumulatorManager_master.h"
 #include "RVC.h"
+#include "kelly8080ips_can.h"
+#include "OrionBms2.h"
+#include "SteeringWheel.h"
+
+#include "SharedPinFix.h"
+#include "AdcForceStart.h"
 
 
 /******************************************************************************/
@@ -141,7 +147,8 @@ void Task_init (void)
 		HLD_GtmTom_init();
 		HLD_GtmTim_init();
 		HLD_Qspi_init();
-		HLD_Multican_init();
+		// HLD_Multican_init();
+		HLD_Vadc_init();
 	}
 	/*HLD_AbstractionLayer initialization*/
 	{
@@ -149,7 +156,7 @@ void Task_init (void)
 	}
 	/*HLD_Userinterface initialization*/
 	{
-		HLD_UserInterface_init(Task_startButtonRoutine);
+		// HLD_UserInterface_init(Task_startButtonRoutine);
 	}	
 	/* UHM initialization */
 	{
@@ -163,9 +170,13 @@ void Task_init (void)
 	}
 	/* Hmm... */
 	{
-		AccumulatorManager_master_init();
+		// AccumulatorManager_master_init();
+		kelly8080ips_can_init();
+		OrionBms2_init();
 		RVC_init();
+		SteeringWheel_init();
 	}
+
 	/*HLD initialization finished*/
 	{
 		while(IfxCpu_acquireMutex(&Task_core1.mutex));
@@ -181,8 +192,8 @@ void Task_init (void)
 		}
 
 		HLD_GtmTomBeeper_start(Beep_pattern4);
-		//		HLD_GtmTomBeeper_start(KartRider);
-		//		HLD_GtmTomBeeper_start(GrandfathersElevenMonth);
+		//HLD_GtmTomBeeper_start(KartRider);
+		//HLD_GtmTomBeeper_start(GrandfathersElevenMonth);
 	}
 
 }
@@ -240,7 +251,7 @@ void Task_10ms (void)			//Slot 0
 
 	RVC_run_10ms();
 
-	HLD_UserInterface_run_10ms();
+	// HLD_UserInterface_run_10ms();
 
 	ticToc_10ms_s0 = (IfxStm_get(&MODULE_STM0) - stm_buf)*1000000/(IfxStm_getFrequency(&MODULE_STM0));
 }

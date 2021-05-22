@@ -114,6 +114,18 @@ void HLD_GtmTomBeeper_start(note_t* target)
 	g_Music.beats = 0;
 	g_Music.pitch = 0;
 	g_Music.isend = FALSE;
+	g_Music.volume = VOLUME_DEFAULT;
+	HLD_GtmTomBeeper.on = TRUE;
+}
+void HLD_GtmTomBeeper_start_volume(note_t* target, float32 volume)
+{
+	g_Music.piece = target;
+	g_Music.note_counter = 0;
+	g_Music.beat_counter = 0;
+	g_Music.beats = 0;
+	g_Music.pitch = 0;
+	g_Music.isend = FALSE;
+	g_Music.volume = volume;
 	HLD_GtmTomBeeper.on = TRUE;
 }
 void HLD_GtmTomBeeper_play (void)

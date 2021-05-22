@@ -45,8 +45,14 @@
 #define HLD_BOARD 			HLD_BOARD_SB275
 #define HLD_FOURTH_CANNODE	FALSE
 
-/*UserInterface macros*/
+/*GPIO macros*/		//FIXME: Specify Port Init source file
 #define START_BTN					IfxPort_P11_9
+#define R2DOUT 						IfxPort_P21_0
+#define FWD_OUT						IfxPort_P21_3
+#define AIR_P_IN					IfxPort_P00_6
+#define AIR_N_IN					IfxPort_P00_7
+#define BP_IN						IfxPort_P14_1
+#define BSW_IN						IfxPort_P00_0
 
 /*Qspi2 macros*/
 #define QSPI2_SCLK					IfxQspi2_SCLK_P15_6_OUT
@@ -62,16 +68,17 @@
 #define PWMDCCL						IfxGtm_TOM1_1_TOUT11_P00_2_OUT
 
 /*GtmTim macros*/
-#define GTMTIM0						IfxGtm_TIM0_2_TIN20_P00_11_IN	//APPS0
-#define GTMTIM1						IfxGtm_TIM3_3_TIN13_P00_4_IN//IfxGtm_TIM2_3_TIN13_P00_4_IN	//APPS1
+#define GTMTIM0						IfxGtm_TIM0_6_TIN24_P33_2_IN	//APPS0
+#define GTMTIM1						IfxGtm_TIM2_4_TIN14_P00_5_IN	//APPS1		//IfxGtm_TIM2_3_TIN13_P00_4_IN
 #define GTMTIM2						IfxGtm_TIM0_3_TIN21_P00_12_IN	//APPS2
-#define GTMTIM3						IfxGtm_TIM2_4_TIN14_P00_5_IN	//BPPS0
-#define GTMTIM4						IfxGtm_TIM0_6_TIN24_P33_2_IN	//BPPS1
-#define GTMTIM5						IfxGtm_TIM0_5_TIN23_P33_1_IN//IfxGtm_TIM1_4_TIN22_P33_0_IN//IfxGtm_TIM0_4_TIN22_P33_0_IN	//STA
-#define GTMTIM6						IfxGtm_TIM2_6_TIN100_P11_11_IN	//WSS0
-#define GTMTIM7						IfxGtm_TIM2_1_TIN95_P11_2_IN	//WSS1
-#define GTMTIM8						IfxGtm_TIM2_2_TIN96_P11_3_IN	//WSS2
-#define GTMTIM9						IfxGtm_TIM2_3_TIN97_P11_6_IN	//WSS3
+#define GTMTIM3						IfxGtm_TIM3_3_TIN13_P00_4_IN	//BPPS0
+#define GTMTIM4						IfxGtm_TIM0_2_TIN20_P00_11_IN	//BPPS1
+#define GTMTIM5						IfxGtm_TIM0_5_TIN23_P33_1_IN	//STA		//IfxGtm_TIM1_4_TIN22_P33_0_IN//IfxGtm_TIM0_4_TIN22_P33_0_IN
+#define GTMTIM6						IfxGtm_TIM2_3_TIN97_P11_6_IN	//WSS0
+#define GTMTIM7						IfxGtm_TIM2_2_TIN96_P11_3_IN	//WSS1
+#define GTMTIM8						IfxGtm_TIM2_1_TIN95_P11_2_IN	//WSS2
+#define GTMTIM9						IfxGtm_TIM2_6_TIN100_P11_11_IN	//WSS3
+
 
 /*Led port macros*/
 #define LED_ONBOARD					IfxPort_P10_2
@@ -104,7 +111,7 @@
 #define CAN1NODE2OUT				IfxMultican1_TXD2_P20_10_OUT
 #endif
 
-/*Not used macros*/
+/********************* Unused macro s*********************/
 
 /*Ccu6 macros*/
 /*Compatibility layer*/

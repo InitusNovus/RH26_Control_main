@@ -46,12 +46,13 @@ typedef enum
 typedef enum
 {
 	HLD_Vadc_group0 = 0,
-	HLD_Vadc_group2 = 1,
-	HLD_Vadc_group3 = 2,
-	HLD_Vadc_group4 = 3,
-	HLD_Vadc_group5 = 4,
+	HLD_Vadc_group1 = 1,
+	HLD_Vadc_group2 = 2,
+	HLD_Vadc_group3 = 3,
+	HLD_Vadc_group4 = 4,
+	HLD_Vadc_group5 = 5,
 }HLD_Vadc_GroupId;
-#define HLD_Vadc_groupNum 5
+#define HLD_Vadc_groupNum 6
 
 #endif
 
@@ -99,12 +100,13 @@ typedef struct
 			struct
 			{
 				IfxVadc_Adc_Group g0;
+				IfxVadc_Adc_Group g1;
 				IfxVadc_Adc_Group g2;
 				IfxVadc_Adc_Group g3;
 				IfxVadc_Adc_Group g4;
 				IfxVadc_Adc_Group g5;
 			}S;
-			IfxVadc_Adc_Group A[5];
+			IfxVadc_Adc_Group A[6];
 		}adcGroup;
 #endif
 

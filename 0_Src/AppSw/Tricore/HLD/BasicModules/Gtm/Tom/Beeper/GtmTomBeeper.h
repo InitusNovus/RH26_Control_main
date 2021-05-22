@@ -18,7 +18,7 @@
 /*-----------------------------------Macros-----------------------------------*/
 /******************************************************************************/
 #define BEAT(bpm)			(1000*60/(bpm))
-
+#define VOLUME_DEFAULT		0.2
 /******************************************************************************/
 /*------------------------------Type Definitions------------------------------*/
 /******************************************************************************/
@@ -103,5 +103,29 @@ IFX_EXTERN void HLD_GtmTomBeeper_run_1ms(void);
  * Note: The new beep pattern overrides the playing one.
  * */
 IFX_EXTERN void HLD_GtmTomBeeper_start (note_t* target);
+/*
+ * Beep pattern start function
+ * Argument1: Beep pattern array
+ * Argument2: Volume(0~1, real number)
+ * Note: The new beep pattern overrides the playing one.
+ * */
+IFX_EXTERN void HLD_GtmTomBeeper_start_volume(note_t* target, float32 volume);
+
+/******************************************************************************/
+/*---------------------Inline Function Implimentations------------------------*/
+/******************************************************************************/
+IFX_INLINE void HLD_GtmTomBeeper_setVolume(float32 volume)
+{
+	if(volume > 1)
+		volume = 1;
+	else if(volume < 0)
+		volume = 0;
+
+	HLD_GtmTomBeeper.volume = volume;
+}
+IFX_INLINE void HLD_GtmTomBeeper_setVolumeDefault(void)
+{
+	HLD_GtmTomBeeper.volume = VOLUME_DEFAULT;
+}
 
 #endif /* BEEPER_TEST_H */

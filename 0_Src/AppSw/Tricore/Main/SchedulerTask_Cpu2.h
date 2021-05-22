@@ -35,6 +35,7 @@ typedef struct
 	IfxCpu_mutexLock mutex;
 	boolean start;
 	boolean flag;
+	volatile uint32 count10ms;
 }Task_cpu2;
 
 
