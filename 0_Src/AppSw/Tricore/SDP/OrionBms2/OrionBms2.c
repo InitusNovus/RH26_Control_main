@@ -75,7 +75,7 @@ IFX_STATIC void OrionBms2_receiveMessage(void)
 			RVC_public.bms.shared.data.current = (float32)OrionBms2.msg1.packCurrent / 10;
 			RVC_public.bms.shared.data.voltage = (float32)OrionBms2.msg1.packVoltage / 10;
 			RVC_public.bms.shared.data.soc = (float32)OrionBms2.msg1.packSoc / 2;
-			// RVC_public.bms.shared.isUpdated = TRUE;
+			RVC_public.bms.shared.isUpdated = TRUE;
 			IfxCpu_releaseMutex(&RVC_public.bms.shared.mutex);
 		}
 	}
@@ -88,7 +88,7 @@ IFX_STATIC void OrionBms2_receiveMessage(void)
 		{
 			RVC_public.bms.shared.data.chargeLimit = OrionBms2.msg2.packChargeLimit;
 			RVC_public.bms.shared.data.dischargeLimit = OrionBms2.msg2.packDischargeLimit;
-			// RVC_public.bms.shared.isUpdated = TRUE;
+			RVC_public.bms.shared.isUpdated = TRUE;
 			IfxCpu_releaseMutex(&RVC_public.bms.shared.mutex);
 		}
 	}

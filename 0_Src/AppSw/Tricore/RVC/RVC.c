@@ -88,7 +88,7 @@ TODO:
 #define BRAKE_ON_TH_BP1	3.3f
 #define BRAKE_ON_TH_BP2 5.6f
 
-#define BMS_PDL_ERROR	TRUE
+#define BMS_PDL_ERROR	FALSE
 
 /*********************** Global Variables ****************************/
 RVC_t RVC = 
@@ -255,15 +255,19 @@ IFX_STATIC void RVC_initAdcSensor(void)
 	HLD_AdcForceStart(RVC.LvBattery_Voltage.adcChannel.channel.group);
 
 	/* Brake Pressure*/
+	/* 
+	 * 2.5kpsi 
+	*/
 	adcConfig.adcConfig.lpf.activated = TRUE;
 	adcConfig.adcConfig.lpf.config.gain = 1;
 	adcConfig.adcConfig.lpf.config.cutOffFrequency = 1/(2*IFX_PI*(1e-2f));
 	adcConfig.adcConfig.lpf.config.samplingTime = 10.0e-3;
 
-	adcConfig.isOvervoltageProtected = FALSE;
+	adcConfig.isOvervoltageProtected = TRUE;
 	adcConfig.linCalConfig.isAct = FALSE;
-	adcConfig.tfConfig.a = 50;
-	adcConfig.tfConfig.b = -25;
+
+	adcConfig.tfConfig.a = 43.0925f;
+	adcConfig.tfConfig.b = -19.392f;
 
 	adcConfig.adcConfig.channelIn = &(HLD_Vadc_Channel_In){HLD_Vadc_group0, HLD_Vadc_ChannelId_2};
 	AdcSensor_initSensor(&RVC.BrakePressure1, &adcConfig);
@@ -786,5 +790,24 @@ IFX_INLINE void RVC_updateSharedVariable(void)
 			IfxCpu_releaseMutex(&SteeringWheel_public.shared.mutex);
 		}
 		updateErrorCount = 0;
+	}
+	if(IfxCpu_acquireMutex(&RVC_public.bms.shared.mutex))
+	{
+		if(RVC_public.bms.shared.isUpdated)
+		{
+			RVC_public.bms.data.isUpdated = TRUE;
+			RVC_public.bms.shared.isUpdated = FALSE;
+			RVC_public.bms.data.averageTemp = RVC_public.bms.shared.data.averageTemp;
+			RVC_public.bms.data.bmsTemp = RVC_public.bms.shared.data.bmsTemp;
+			RVC_public.bms.data.chargeLimit = RVC_public.bms.shared.data.chargeLimit;
+			RVC_public.bms.data.current = RVC_public.bms.shared.data.current;
+			RVC_public.bms.data.dischargeLimit = RVC_public.bms.shared.data.dischargeLimit;
+			RVC_public.bms.data.highestTemp = RVC_public.bms.shared.data.highestTemp;
+			RVC_public.bms.data.lowestVoltage = RVC_public.bms.shared.data.lowestVoltage;
+			RVC_public.bms.data.soc = RVC_public.bms.shared.data.soc;
+			RVC_public.bms.data.voltage = RVC_public.bms.shared.data.voltage;
+			
+		}
+		IfxCpu_releaseMutex(&RVC_public.bms.shared.mutex);
 	}
 }

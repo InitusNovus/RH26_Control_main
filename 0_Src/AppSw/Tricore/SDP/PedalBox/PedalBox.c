@@ -17,17 +17,19 @@
 /******************************************************************************/
 /*-----------------------------------Macros-----------------------------------*/
 /******************************************************************************/
+/* 36.74 45.03
+83.20 92.04 */
 /*FIXME Temporary values*/
-#define A0END		44.6f
-#define A0STT		36.9f
+#define A0END		83.42f
+#define A0STT		74.53f
 #define A0DDZ		5
 
-#define A1END		91.5f	//FIXME: Temporary value
-#define A1STT		83.3f	//FIXME: Temparary value
+#define A1END		92.0f	//FIXME: Temporary value
+#define A1STT		82.8f	//FIXME: Temparary value
 #define A1DDZ		5
 
-#define A2END		91.5f
-#define A2STT		83.3f
+#define A2END		92.50f
+#define A2STT		83.03f
 #define A2DDZ		5
 
 #define B0STT		78.2f	//FIXME
