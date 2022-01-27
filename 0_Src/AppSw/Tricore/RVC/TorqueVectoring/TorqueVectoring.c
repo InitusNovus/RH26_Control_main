@@ -7,6 +7,8 @@
 
 /* Includes */
 #include "TorqueVectoring.h"
+#include "SteeringAngle.h"
+#include <math.h>
 
 /* Macros */
 #define TVOPEN_LSD_ON		FALSE
@@ -33,6 +35,20 @@ void RVC_TorqueVectoring_run_modeOpen(void)
 void RVC_TorqueVectoring_run_mode1(void)
 {
 	// TODO: TV algorithm
-	/*Default*/
-	RVC_TorqueVectoring_run_modeOpen();
+	const float32 maxSteering = 90.0;
+	if(SDP_SteeringAngle.stas0.direction == SteerLeft)
+	{
+		RVC.torque.rearLeft = RVC.torque.controlled * (1 - fabs(SDP_SteeringAngle.stas0.degSteeringAngle)/maxSteering);
+		RVC.torque.rearRight = RVC.torque.controlled;
+	}
+	else if(SDP_SteeringAngle.stas0.direction == SteerRight)
+	{
+		RVC.torque.rearLeft = RVC.torque.controlled;
+		RVC.torque.rearRight = RVC.torque.controlled * (1 - fabs(SDP_SteeringAngle.stas0.degSteeringAngle)/maxSteering);
+	}
+	else
+	{
+		RVC.torque.rearLeft = RVC.torque.controlled;
+		RVC.torque.rearRight = RVC.torque.controlled;
+	}
 }

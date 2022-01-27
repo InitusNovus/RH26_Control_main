@@ -140,7 +140,8 @@ void RVC_init(void)
 {
 	RVC_initAdcSensor();
 
-	RVC.tvMode = RVC_TorqueVectoring_modeOpen;
+	// RVC.tvMode = RVC_TorqueVectoring_modeOpen;
+	RVC.tvMode = RVC_TorqueVectoring_mode1;
 	RVC.tcMode = RVC_TractionControl_modeNone;
 	RVC_PedalMap_lut_setMode(0);
 
@@ -150,6 +151,9 @@ void RVC_init(void)
 
 	RVC.tvMode1.pGain = TV1PGAIN;
 	RVC.readyToDrive = RVC_ReadyToDrive_status_initialized;
+	
+	/* For Test */
+	RVC.readyToDrive = RVC_ReadyToDrive_status_run;
 }
 
 void RVC_run_1ms(void)
@@ -571,7 +575,7 @@ IFX_INLINE void RVC_torqueLimit(void)
 {
 	uint16 dischargeLimit ;
 
-	if(BMS_PDL_ERROR == TRUE)
+/* 	if(BMS_PDL_ERROR == TRUE)
 	{
 		dischargeLimit = 400;
 		if(RVC_public.bms.data.highestTemp > 45)
@@ -610,7 +614,12 @@ IFX_INLINE void RVC_torqueLimit(void)
 	else
 	{
 		RVC.currentLimit.isLimited = FALSE;
-	}
+	} */
+	/* For Test */
+	RVC.currentLimit.value = 100;
+	RVC.currentLimit.margin = 100;
+	RVC.currentLimit.setValue = 100;
+	RVC.currentLimit.isLimited = FALSE;
 }
 
 IFX_INLINE void RVC_torqueSatuation(void)
