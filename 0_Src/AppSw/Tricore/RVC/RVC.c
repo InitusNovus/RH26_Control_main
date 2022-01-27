@@ -749,7 +749,8 @@ IFX_INLINE void RVC_updatePwmSignal(void)
 
 IFX_INLINE void VariableUpdateRoutine(void)
 {
-	SteeringWheel_public.shared.data.vehicleSpeed = SDP_WheelSpeed.velocity.chassis;
+	// SteeringWheel_public.shared.data.vehicleSpeed = SDP_WheelSpeed.velocity.chassis;
+	SteeringWheel_public.shared.data.vehicleSpeed = SDP_WheelSpeed.velocity.frontAxle*3.6f;
 	SteeringWheel_public.shared.data.apps = SDP_PedalBox.apps.pps;
 	SteeringWheel_public.shared.data.bpps = SDP_PedalBox.bpps.pps;
 	if(RVC.readyToDrive == RVC_ReadyToDrive_status_run)

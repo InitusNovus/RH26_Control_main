@@ -90,7 +90,7 @@ IFX_STATIC void SDP_WheelSpeed_initSensor(SDP_WheelSpeed_sensor_t* sensor, SDP_W
 	float32 resolution = config->sensorResolution;
 
 	float32 freqToSpeed = 2*IFX_PI/resolution;
-	float32 SpeedToVelocity = freqToSpeed * wheelDiameter/2 /gearRatio;
+	float32 SpeedToVelocity = wheelDiameter/2 /gearRatio;
 
 
 	sensor->config.gearRatio = gearRatio;
