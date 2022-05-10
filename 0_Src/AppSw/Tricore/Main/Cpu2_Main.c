@@ -56,6 +56,8 @@ void core2_main(void)
     while (TRUE)
     {
 		boolean flag;
+		boolean flag_100ms = FALSE;
+		uint8 	counter_100ms = 0;
 		while(IfxCpu_acquireMutex(&Task_core2.mutex));
 		{
 			flag = Task_core2.flag;
@@ -64,6 +66,13 @@ void core2_main(void)
 		if(flag)
 		{
 			Task_core2_1ms();
+
+			counter_100ms++;
+			if(counter_100ms%100 == 0)
+			{
+				Task_core2_100ms();
+				counter_100ms = 0;
+			}
 
 			while(IfxCpu_acquireMutex(&Task_core2.mutex));
 			{

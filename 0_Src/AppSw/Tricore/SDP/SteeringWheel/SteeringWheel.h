@@ -48,5 +48,6 @@ IFX_EXTERN SteeringWheel_public_t SteeringWheel_public;
 /*********************** Function Prototypes *************************/
 IFX_EXTERN void SteeringWheel_init(void);
 IFX_EXTERN void SteeringWheel_run_xms_c2(void);
+IFX_EXTERN void Takk_core2_100ms(void);
 
 #endif

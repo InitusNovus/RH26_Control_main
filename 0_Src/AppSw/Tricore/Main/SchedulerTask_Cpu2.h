@@ -52,7 +52,8 @@ IFX_EXTERN Task_cpu2 Task_core2;
 /******************************************************************************/
 /*---------------------Inline Function Implementations------------------------*/
 /******************************************************************************/
-void Task_core2_1ms (void);
+IFX_EXTERN void Task_core2_1ms (void);
+IFX_EXTERN void Task_core2_100ms(void);
 
 
 #endif

@@ -104,6 +104,8 @@ typedef struct
 	/* Can message object */
     CanCommunication_Message canMsgObj00;
     CanCommunication_Message canMsgObj01;
+	CanCommunication_Message canMsgObj02;
+	CanCommunication_Message canMsgObj03;
 
 	uint32 canErrorCount;
 	boolean canError;
@@ -118,6 +120,7 @@ IFX_EXTERN kelly8080ips_t kelly8080ips2;
 /******************************************************************************/
 IFX_EXTERN void kelly8080ips_can_init(void);
 IFX_EXTERN void kelly8080ips_can_run_1ms_c2(void);
+IFX_EXTERN void kelly8080ips_can_run_xms_c2 (void);
 /******************************************************************************/
 /*---------------------Inline Function Implementations------------------------*/
 /******************************************************************************/
