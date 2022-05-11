@@ -16,6 +16,8 @@ const unsigned conMsgId2 = 0x0CF11F05;
 
 const unsigned conMsgId3 = 0x00102F00UL;
 const unsigned conMsgId4 = 0x00102F01UL;
+const unsigned conMsgId5 = 0x00102F02UL;
+const unsigned conMsgId6 = 0x00102F03UL;
 /*--------------------------------Enumerations--------------------------------*/
 
 /*-----------------------------Data Structures--------------------------------*/
@@ -69,19 +71,41 @@ IFX_STATIC void kelly8080ips_canMessage_init(kelly8080ips_t *inverter, IfxMultic
 	}
 	{
 		CanCommunication_Message_Config config;
-		config.messageId 		=	conMsgId3;
-		config.frameType		=	IfxMultican_Frame_transmit;
-		config.dataLen			=	IfxMultican_DataLengthCode_8;
-		config.node				=	&CanCommunication_canNode0;
-		CanCommunication_initMessage(&inverter->canMsgObj02, &config);
+		if(inverter == &kelly8080ips1)
+		{
+			config.messageId 		=	conMsgId3;	
+			config.frameType		=	IfxMultican_Frame_transmit;
+			config.dataLen			=	IfxMultican_DataLengthCode_8;
+			config.node				=	&CanCommunication_canNode0;
+			CanCommunication_initMessage(&inverter->canMsgObj02, &config);
+		}
+		else if(inverter == &kelly8080ips2)
+		{
+			config.messageId 		=	conMsgId5;
+			config.frameType		=	IfxMultican_Frame_transmit;
+			config.dataLen			=	IfxMultican_DataLengthCode_8;
+			config.node				=	&CanCommunication_canNode0;
+			CanCommunication_initMessage(&inverter->canMsgObj02, &config);
+		}
 	}
 	{
 		CanCommunication_Message_Config config;
-		config.messageId 		=	conMsgId4;
-		config.frameType		=	IfxMultican_Frame_transmit;
-		config.dataLen			=	IfxMultican_DataLengthCode_8;
-		config.node				=	&CanCommunication_canNode0;
+		if(inverter == &kelly8080ips1)
+		{
+			config.messageId 		=	conMsgId4;
+			config.frameType		=	IfxMultican_Frame_transmit;
+			config.dataLen			=	IfxMultican_DataLengthCode_8;
+			config.node				=	&CanCommunication_canNode0;
+			CanCommunication_initMessage(&inverter->canMsgObj03, &config);
+		}
+		else if(inverter == &kelly8080ips2)
+		{
+			config.messageId 		=	conMsgId6;
+			config.frameType		=	IfxMultican_Frame_transmit;
+			config.dataLen			=	IfxMultican_DataLengthCode_8;
+			config.node				=	&CanCommunication_canNode0;
 		CanCommunication_initMessage(&inverter->canMsgObj03, &config);
+		}
 	}
 }
 
