@@ -92,8 +92,8 @@ void SteeringWheel_run_xms_c2(void)
 	SteeringWheel.canMsg1.S.status.S.appsError = SteeringWheel_public.data.appsError;
 	SteeringWheel.canMsg1.S.status.S.bppsError = SteeringWheel_public.data.bppsError;
 
-	SteeringWheel.canMsg2.S.apps = (uint16)(SteeringWheel_public.data.apps*100);
-	SteeringWheel.canMsg2.S.bpps = (uint16)(SteeringWheel_public.data.bpps*100);
+	SteeringWheel.canMsg2.S.apps = (uint16)(SteeringWheel_public.data.apps*100*10);
+	SteeringWheel.canMsg2.S.bpps = (uint16)(SteeringWheel_public.data.bpps*100*10);
 	SteeringWheel.canMsg2.S.lvBatteryVoltage = (uint16)(SteeringWheel_public.data.lvBatteryVoltage*100);
 	SteeringWheel.canMsg2.S.accumulatorVoltage = OrionBms2.msg1.packVoltage;
 
