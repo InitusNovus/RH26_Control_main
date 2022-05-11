@@ -70,5 +70,6 @@ IFX_EXTERN RVC_public_t RVC_public;
 IFX_EXTERN void RVC_init(void);
 IFX_EXTERN void RVC_run_1ms(void);
 IFX_EXTERN void RVC_run_10ms(void);
+IFX_EXTERN void RVC_run_100ms(void);
 
 #endif

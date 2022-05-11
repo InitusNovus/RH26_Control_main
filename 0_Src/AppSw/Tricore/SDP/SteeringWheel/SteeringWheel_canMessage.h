@@ -56,4 +56,28 @@ typedef union
 	uint32 U;
 }SteeringWheel_canMsg3_t;
 
+typedef union 
+{
+	struct 
+	{
+		uint16 brakePressure1;		//byte0~1;		//RVC
+		uint16 brakePressure2;		//byte2~3;		//RVC
+		uint16 r2;
+		uint16 r3;
+	}S;
+	uint32 U[2];
+}SteeringWheel_canMsg4_t;
+
+typedef union 
+{
+	struct 
+	{
+		uint16 wssFL;		//byte0~1;		//RVC
+		uint16 wssFR;		//byte2~3;		//RVC
+		uint16 wssRL;		//byte4~5;		//RVC
+		uint16 wssRR;		//byte6~7;		//RVC
+	}S;
+	uint32 U[2];
+}SteeringWheel_canMsg5_t;
+
 #endif

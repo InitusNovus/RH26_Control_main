@@ -235,7 +235,7 @@ void Task_IsrCb_1ms (void)
 		SDP_WheelSpeed_run_1ms();
 	}
 	{
-		RVC_run_1ms();
+		// RVC_run_1ms();
 	}
 	HLD_GtmTomBeeper_run_1ms();
 
@@ -278,6 +278,7 @@ void Task_100ms_slot4(void)
 {
 	stm_buf = IfxStm_get(&MODULE_STM0);
 	//	HLD_UserInterface_run_100ms_s4();
+	RVC_run_100ms();
 	ticToc_100ms_s4 = (IfxStm_get(&MODULE_STM0) - stm_buf)*1000000/(IfxStm_getFrequency(&MODULE_STM0));
 }
 void Task_100ms_slot14(void)

@@ -30,6 +30,12 @@ typedef struct
 	boolean appsError;
 	boolean bppsError;
 	float32 lvBatteryVoltage;
+	float32 brakePressure1;
+	float32 brakePressure2;
+	float32 wssFL;
+	float32 wssFR;
+	float32 wssRL;
+	float32 wssRR;
 }SteeringWheel_public_data_t;
 
 typedef struct 

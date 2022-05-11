@@ -110,6 +110,13 @@ RVC_t RVC =
 
 	.power.limit = POWER_LIM,
 	.currentLimit.setValue = CURRENT_LIM_SET_VAL,
+
+	.lsd.speedLow = 2.0f,
+	.lsd.diffLimit = 0.2f,	
+	.lsd.kGain = 0.5f/0.2f,	
+	.lsd.lGain = 5.0f,
+	.lsd.mGain = 1.0f,		//faster wheel derating
+	.lsd.faster = RVC_Lsd_Faster_none,
 };
 
 RVC_public_t RVC_public;
@@ -130,7 +137,7 @@ IFX_INLINE void RVC_getTorqueRequired(void);
 IFX_INLINE void RVC_powerComputation(void);
 IFX_INLINE void RVC_torqueLimit(void);
 IFX_INLINE void RVC_torqueSatuation(void);
-IFX_INLINE void RVC_torqueDistrobution(void);
+IFX_INLINE void RVC_torqueDistribution(void);
 IFX_INLINE void RVC_torqueSignalGeneration(void);
 IFX_INLINE void RVC_updatePwmSignal(void);
 IFX_INLINE void RVC_updateSharedVariable(void);
@@ -148,12 +155,22 @@ void RVC_init(void)
 
 	RVC_initGpio();
 
-	RVC.tvMode1.pGain = TV1PGAIN;
 	RVC.readyToDrive = RVC_ReadyToDrive_status_initialized;
 }
 
-void RVC_run_1ms(void)
+
+void RVC_run_10ms(void)
 {
+	{
+		RVC_pollGpi(&RVC.airPositive);
+		RVC_pollGpi(&RVC.airNegative);
+		RVC_pollGpi(&RVC.brakePressureOn);
+		RVC_pollGpi(&RVC.brakeSwitch);
+		RVC_r2d();
+		AdcSensor_getData(&RVC.BrakePressure1);
+		AdcSensor_getData(&RVC.BrakePressure2);
+	}
+
 	RVC_updateReadyToDriveSignal();
 
 	RVC_slipComputation();
@@ -180,7 +197,7 @@ void RVC_run_1ms(void)
 
 	RVC_torqueSatuation();
 
-	RVC_torqueDistrobution();
+	RVC_torqueDistribution();
 
 	/* TODO: Torque signal check*/
 
@@ -192,16 +209,9 @@ void RVC_run_1ms(void)
 	RVC_updateSharedVariable();
 }
 
-void RVC_run_10ms(void)
+void RVC_run_100ms(void)
 {
-	RVC_pollGpi(&RVC.airPositive);
-	RVC_pollGpi(&RVC.airNegative);
-	RVC_pollGpi(&RVC.brakePressureOn);
-	RVC_pollGpi(&RVC.brakeSwitch);
-	RVC_r2d();
 	AdcSensor_getData(&RVC.LvBattery_Voltage);
-	AdcSensor_getData(&RVC.BrakePressure1);
-	AdcSensor_getData(&RVC.BrakePressure2);
 }
 
 /****************** Private Function Implementation ******************/
@@ -512,7 +522,7 @@ IFX_INLINE void RVC_slipComputation(void)
 	RVC.slip.axle = SDP_WheelSpeed.velocity.rearAxle/SDP_WheelSpeed.velocity.frontAxle;
 	RVC.slip.left = SDP_WheelSpeed.wssRL.wheelLinearVelocity/SDP_WheelSpeed.wssFL.wheelLinearVelocity;
 	RVC.slip.right = SDP_WheelSpeed.wssRR.wheelLinearVelocity/SDP_WheelSpeed.wssFR.wheelLinearVelocity;
-	// RVC.diff.rear
+	RVC.diff.rear = (SDP_WheelSpeed.wssRL.wheelLinearVelocity-SDP_WheelSpeed.wssRR.wheelLinearVelocity);
 	if(isnan(RVC.slip.axle)||isnan(RVC.slip.left)||isnan(RVC.slip.right)) 
 	{
 		RVC.slip.error = TRUE;
@@ -520,6 +530,15 @@ IFX_INLINE void RVC_slipComputation(void)
 	else
 	{
 		RVC.slip.error = FALSE;
+	}
+
+	if(isnan(RVC.diff.rear))
+	{
+		RVC.diff.error = TRUE;
+	}
+	else
+	{
+		RVC.diff.error = FALSE;
 	}
 }
 
@@ -629,7 +648,7 @@ IFX_INLINE void RVC_torqueSatuation(void)
 	}
 }
 
-IFX_INLINE void RVC_torqueDistrobution(void)
+IFX_INLINE void RVC_torqueDistribution(void)
 {
 	/* Traction Control Calculation */
 	switch(RVC.tcMode)
@@ -769,6 +788,12 @@ IFX_INLINE void VariableUpdateRoutine(void)
 	else 
 		SteeringWheel_public.shared.data.bppsError = TRUE;
 	SteeringWheel_public.shared.data.lvBatteryVoltage = RVC.LvBattery_Voltage.value;
+	SteeringWheel_public.shared.data.brakePressure1 = RVC.BrakePressure1.value;
+	SteeringWheel_public.shared.data.brakePressure2 = RVC.BrakePressure2.value;
+	SteeringWheel_public.shared.data.wssFL = SDP_WheelSpeed.wssFL.wheelLinearVelocity;
+	SteeringWheel_public.shared.data.wssFR = SDP_WheelSpeed.wssFR.wheelLinearVelocity;
+	SteeringWheel_public.shared.data.wssRL = SDP_WheelSpeed.wssRL.wheelLinearVelocity;
+	SteeringWheel_public.shared.data.wssRR = SDP_WheelSpeed.wssRR.wheelLinearVelocity;
 }
 volatile uint32 updateErrorCount = 0;
 IFX_INLINE void RVC_updateSharedVariable(void)

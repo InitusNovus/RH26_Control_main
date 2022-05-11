@@ -45,6 +45,13 @@ typedef struct
 	boolean value;
 } RVC_Gpi_t;
 
+typedef enum
+{
+	RVC_Lsd_Faster_none = 0,
+	RVC_Lsd_Faster_left = 1,
+	RVC_Lsd_Faster_right = 2,
+}RVC_Lsd_Faster_t;
+
 /*************************** Data Structures *********************************/
 typedef struct
 {
@@ -142,17 +149,19 @@ typedef struct
 	struct 
 	{
 		float32 rear;
+		boolean error;
 	} diff;
 
 	struct 
 	{
-		float32 slipLimit;
-	} tcMode1;
-
-	struct
-	{
-		float32 pGain;
-	} tvMode1;
+		float32 speedLow;
+		float32 diffLimit;
+		float32 kGain;
+		float32 lGain;
+		float32 mGain;
+		RVC_Lsd_Faster_t faster;	
+		//float32 diffDeadZone; TODO: difference deadzone
+	} lsd;
 
 } RVC_t;
 
