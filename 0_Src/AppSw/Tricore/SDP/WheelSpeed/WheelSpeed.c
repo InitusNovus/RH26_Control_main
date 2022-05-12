@@ -13,6 +13,7 @@
 #include "WheelSpeed.h"
 #include "GtmTim.h"
 #include <math.h>
+#include "Ifx_LowPassPt1F32.h"
 
 /******************************************************************************/
 /*-----------------------------------Macros-----------------------------------*/
@@ -100,6 +101,9 @@ IFX_STATIC void SDP_WheelSpeed_initSensor(SDP_WheelSpeed_sensor_t* sensor, SDP_W
 	sensor->config.wheelRadius = wheelDiameter/2;
 	sensor->config.freqToSpeed = freqToSpeed;
 	sensor->config.speedToVelocity = SpeedToVelocity;
+
+	//TODO: WheelSpeed LPF
+
 }
 
 IFX_STATIC void SDP_WheelSpeed_update(void)
@@ -123,5 +127,7 @@ IFX_STATIC void SDP_WheelSpeed_getSensorValue(SDP_WheelSpeed_sensor_t* sensor, H
 	sensor->wheelLinearVelocity =
 			sensor->config.speedToVelocity *(sensor->sensorAngularSpeed =
 					sensor->config.freqToSpeed *(sensor->sensorFrequencyRaw = freq));
+	
+
 }
 

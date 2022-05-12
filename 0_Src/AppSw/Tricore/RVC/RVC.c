@@ -111,7 +111,7 @@ RVC_t RVC =
 	.power.limit = POWER_LIM,
 	.currentLimit.setValue = CURRENT_LIM_SET_VAL,
 
-	.lsd.speedLow = 2.0f,
+	.lsd.speedLow = 2.5f,
 	.lsd.diffLimit = 0.2f,	
 	.lsd.kGain = 0.5f/0.2f,	
 	.lsd.lGain = 5.0f,
