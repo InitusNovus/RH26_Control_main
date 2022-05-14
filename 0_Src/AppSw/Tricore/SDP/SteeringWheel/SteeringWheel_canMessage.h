@@ -62,8 +62,8 @@ typedef union
 	{
 		uint16 brakePressure1;		//byte0~1;		//RVC
 		uint16 brakePressure2;		//byte2~3;		//RVC
-		uint16 r2;
-		uint16 r3;
+		uint16 steeringAngle_raw;	//byte4~5;		//RVC
+		uint16 steeringAngle;		//byte6~7;		//RVC
 	}S;
 	uint32 U[2];
 }SteeringWheel_canMsg4_t;
@@ -79,5 +79,17 @@ typedef union
 	}S;
 	uint32 U[2];
 }SteeringWheel_canMsg5_t;
+
+typedef union 
+{
+	struct 
+	{
+		uint16 torqueFL;		//byte0~1;		//RVC
+		uint16 torqueFR;		//byte2~3;		//RVC
+		uint16 torqueRL;		//byte4~5;		//RVC
+		uint16 torqueRR;		//byte6~7;		//RVC
+	}S;
+	uint32 U[2];
+}SteeringWheel_canMsg6_t;
 
 #endif

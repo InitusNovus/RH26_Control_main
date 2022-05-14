@@ -25,11 +25,13 @@ typedef struct
 	CanCommunication_Message msgObj3;
 	CanCommunication_Message msgObj4;
 	CanCommunication_Message msgObj5;
+	CanCommunication_Message msgObj6;
 	SteeringWheel_canMsg1_t canMsg1;
 	SteeringWheel_canMsg2_t canMsg2;
 	SteeringWheel_canMsg3_t canMsg3;
 	SteeringWheel_canMsg4_t canMsg4;
 	SteeringWheel_canMsg5_t canMsg5;
+	SteeringWheel_canMsg6_t canMsg6;
 }SteeringWheel_t;
 
 /*********************** Global Variables ****************************/
@@ -39,6 +41,7 @@ const uint32 StWhlMsgId3 = 0x00101F02UL;
 
 const uint32 StWhlMsgId4 = 0x00101F03UL;
 const uint32 StWhlMsgId5 = 0x00101F04UL;
+const uint32 StWhlMsgId6 = 0x00101F05UL;
 
 SteeringWheel_t SteeringWheel;
 SteeringWheel_public_t SteeringWheel_public;
@@ -90,6 +93,14 @@ void SteeringWheel_init(void)
         config.node				=	&CanCommunication_canNode0;
         CanCommunication_initMessage(&SteeringWheel.msgObj5, &config);
 	}
+	{
+		CanCommunication_Message_Config config;
+		config.messageId 		= 	StWhlMsgId6;
+		config.frameType		=	IfxMultican_Frame_transmit;
+        config.dataLen			=	IfxMultican_DataLengthCode_8;
+        config.node				=	&CanCommunication_canNode0;
+        CanCommunication_initMessage(&SteeringWheel.msgObj6, &config);
+	}
 }
 
 void SteeringWheel_run_xms_c2(void)
@@ -127,11 +138,18 @@ void SteeringWheel_run_xms_c2(void)
 
 	SteeringWheel.canMsg4.S.brakePressure1 = (uint16)(SteeringWheel_public.data.brakePressure1*10);	//FP 0.1 bar
 	SteeringWheel.canMsg4.S.brakePressure2 = (uint16)(SteeringWheel_public.data.brakePressure2*10);	//FP 0.1 bar
+	SteeringWheel.canMsg4.S.steeringAngle_raw = (uint16)(SteeringWheel_public.data.sta_raw*10);		//FP 0.1 deg
+	SteeringWheel.canMsg4.S.steeringAngle = (uint16)(SteeringWheel_public.data.sta*10);				//FP 0.1 deg
 
 	SteeringWheel.canMsg5.S.wssFL = (uint16)(SteeringWheel_public.data.wssFL*10);	//FP 0.1 m/s
 	SteeringWheel.canMsg5.S.wssFR = (uint16)(SteeringWheel_public.data.wssFR*10);	//FP 0.1 m/s
 	SteeringWheel.canMsg5.S.wssRL = (uint16)(SteeringWheel_public.data.wssRL*10);	//FP 0.1 m/s
 	SteeringWheel.canMsg5.S.wssRR = (uint16)(SteeringWheel_public.data.wssRR*10);	//FP 0.1 m/s
+
+	SteeringWheel.canMsg6.S.torqueFL = (uint16)(SteeringWheel_public.data.torqueFL*10);	//FP 0.1 percent
+	SteeringWheel.canMsg6.S.torqueFR = (uint16)(SteeringWheel_public.data.torqueFR*10);	//FP 0.1 percent
+	SteeringWheel.canMsg6.S.torqueRL = (uint16)(SteeringWheel_public.data.torqueRL*10);	//FP 0.1 percent
+	SteeringWheel.canMsg6.S.torqueRR = (uint16)(SteeringWheel_public.data.torqueRR*10);	//FP 0.1 percent
 
 	/* Set the messages */
 	CanCommunication_setMessageData(SteeringWheel.canMsg1.U[0], SteeringWheel.canMsg1.U[1], &SteeringWheel.msgObj1);
@@ -139,6 +157,7 @@ void SteeringWheel_run_xms_c2(void)
 	CanCommunication_setMessageData(SteeringWheel.canMsg3.U, 0, &SteeringWheel.msgObj3);
 	CanCommunication_setMessageData(SteeringWheel.canMsg4.U[0], SteeringWheel.canMsg4.U[1], &SteeringWheel.msgObj4);
 	CanCommunication_setMessageData(SteeringWheel.canMsg5.U[0], SteeringWheel.canMsg5.U[1], &SteeringWheel.msgObj5);
+	CanCommunication_setMessageData(SteeringWheel.canMsg6.U[0], SteeringWheel.canMsg6.U[1], &SteeringWheel.msgObj6);
 
 	/* Transmit the messages */
 	CanCommunication_transmitMessage(&SteeringWheel.msgObj1);
@@ -146,4 +165,5 @@ void SteeringWheel_run_xms_c2(void)
 	CanCommunication_transmitMessage(&SteeringWheel.msgObj3);
 	CanCommunication_transmitMessage(&SteeringWheel.msgObj4);
 	CanCommunication_transmitMessage(&SteeringWheel.msgObj5);
+	CanCommunication_transmitMessage(&SteeringWheel.msgObj6);
 }

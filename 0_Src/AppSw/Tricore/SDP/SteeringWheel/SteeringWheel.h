@@ -36,6 +36,12 @@ typedef struct
 	float32 wssFR;
 	float32 wssRL;
 	float32 wssRR;
+	float32 sta_raw;
+	float32 sta;
+	float32 torqueFL;
+	float32 torqueFR;
+	float32 torqueRL;
+	float32 torqueRR;
 }SteeringWheel_public_data_t;
 
 typedef struct 

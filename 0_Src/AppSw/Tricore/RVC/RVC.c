@@ -31,6 +31,7 @@ TODO:
 #include "Gpio_Debounce.h"
 #include "AdcSensor.h"
 #include "AdcForceStart.h"
+#include "SteeringAngle.h"
 
 #include "RVC.h"
 #include "RVC_privateDataStructure.h"
@@ -794,6 +795,10 @@ IFX_INLINE void VariableUpdateRoutine(void)
 	SteeringWheel_public.shared.data.wssFR = SDP_WheelSpeed.wssFR.wheelLinearVelocity;
 	SteeringWheel_public.shared.data.wssRL = SDP_WheelSpeed.wssRL.wheelLinearVelocity;
 	SteeringWheel_public.shared.data.wssRR = SDP_WheelSpeed.wssRR.wheelLinearVelocity;
+	SteeringWheel_public.shared.data.sta_raw = SDP_SteeringAngle.stas0.degSteeringAngle_raw;
+	SteeringWheel_public.shared.data.sta = SDP_SteeringAngle.degSteeringAngle;
+	SteeringWheel_public.shared.data.torqueRL = RVC.torque.rearLeft;
+	SteeringWheel_public.shared.data.torqueRR = RVC.torque.rearRight;
 }
 volatile uint32 updateErrorCount = 0;
 IFX_INLINE void RVC_updateSharedVariable(void)
